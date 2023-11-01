@@ -1,0 +1,6 @@
+Flask
+requests
+Flask-SQLAlchemy
+ephem
+discord.py
+schedule
