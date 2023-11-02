@@ -7,7 +7,9 @@ Also contains a script to send data from the API to a Discord webhook at 12PM ev
 
 ---
 
-Before running the script, you will need to include a webhook URL. You can add this by navigating to the app/ directory, and pasting your webhook URL into the file called 'WEBHOOK_URL'.
+Before running the docker image/script for the first time, you need to include a webhook URL. You can do this by opening the schedule_discord.py script in the app/ directory, and pasting your webhook into the variable "WEBHOOK_URL"
+
+This will probably be changed to an environment variable later on
 
 Includes a Dockerfile that can be built using the following commands
 

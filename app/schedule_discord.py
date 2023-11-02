@@ -6,13 +6,7 @@ from time import sleep
 import schedule
 import discord
 
-
-with open("WEBHOOK_URL", "r", encoding="UTF-8") as file:
-	if len(file.readlines()) > 0:
-		WEBHOOk_URL = [_.strip() for _ in file.readlines()][0]
-	else:
-		print("WEBHOOK NOT PRESENT IN FILE")
-
+WEBHOOK_URL = ""
 
 class Embed:
     def __init__(self, webhook_url):
@@ -38,7 +32,7 @@ class Embed:
         self.webhook.send(embed=embed, avatar_url="https://yt3.googleusercontent.com/AY_S_jhwJz9jIxfQ-yyKr5AvbsHRrzS1h5bjOMcBEDd2DRTd-WLYsxznRWzAdZZlmPX1_yksdQ=s900-c-k-c0x00ffffff-no-rj")
 
 
-webhook = Embed(WEBHOOk_URL)
+webhook = Embed(WEBHOOK_URL)
 
 def get_start_times():
     countries = requests.get("http://127.0.0.1:5000/api/countries").json()
