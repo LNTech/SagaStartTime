@@ -9,6 +9,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db.init_app(app)
 
+
 def check_values(*args):
     """Checks if any of the values provided are blank or none"""
     for arg in args:
@@ -18,7 +19,7 @@ def check_values(*args):
 
 
 @app.route("/api/countries", methods=["GET"])
-def get_countrys():
+def get_countries():
     """Returns all countries"""
     countries = Country.query.all()
     jsonified = []
@@ -42,16 +43,20 @@ def add_country():
         return jsonify({"message": "Country already present in database."}), 400
 
     country = Country(name=name)
+
     db.session.add(country)
     db.session.commit()
     db.session.refresh(country)
+
     return jsonify({"message": f"Added new country ID: {country.id}"}), 200
 
-@app.route("/api/locations/by_country/<country_id>", methods=["GET"])
-def locations_by_country(country_id : int):
+@app.route("/api/locations/by_country", methods=["GET"])
+def locations_by_country():
     """Gets locations given a country ID"""
+    country_id = request.args.get('id')
+
     if check_values(country_id):
-        return jsonify({"message": "Invalid form data."}), 200
+        return jsonify({"message": "Invalid form data."}), 400
 
     locations = Location.query.filter_by(country_id=country_id)
     jsonified = []
@@ -92,17 +97,26 @@ def add_location():
         return jsonify({"message": "Location already present in database."})
 
     location = Location(country_id=country_id, name=name, lat=lat, lon=lon)
+
     db.session.add(location)
     db.session.commit()
     db.session.refresh(location)
+
     return jsonify({"message": f"Added new location ID: {location.id}"}), 200
 
 
-@app.route("/api/start_time/<location_id>", methods=["GET"])
-def get_start_time(location_id : int):
+@app.route("/api/start_time", methods=["GET"])
+def get_start_time():
     """Get treatment start time"""
+    location_id = request.args.get('loc_id')
+    
     if check_values(location_id):
         return jsonify({"message": "Invalid form data."}), 400
+    
+    if location_id.isdigit():
+        location_id = int(location_id)
+    else:
+        return jsonify({"message": "Invalid location ID data."}), 400
 
     location = Location.query.filter_by(id=location_id).first()
     if location is None:
@@ -110,6 +124,7 @@ def get_start_time(location_id : int):
 
     twilight = CivilTwilight()
     times = twilight.calculate(location.lat, location.lon)
+
     return jsonify({"location_id": location.id, "times": times}), 200
 
 
