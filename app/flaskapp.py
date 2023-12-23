@@ -58,6 +58,11 @@ def locations_by_country():
     if check_values(country_id):
         return jsonify({"message": "Invalid form data."}), 400
 
+    if country_id.isdigit():
+        country_id = int(country_id)
+    else:
+        return jsonify({"message": "Invalid country ID data."}), 400
+
     locations = Location.query.filter_by(country_id=country_id)
     jsonified = []
 
