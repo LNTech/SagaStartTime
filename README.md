@@ -28,5 +28,5 @@ Route  | Description | Requirements | Method
 /api/countries | Adds a country given a name | name | POST
 /api/locations | Lists all locations in database | None | GET
 /api/locations | Adds a location given data | lat, lon, name, country_id | POST
-/api/locations/by_name?country_id=X | Lists locations per country_id | country_id (GET param) | GET
+/api/locations/by_country?country_id=X | Lists locations per country_id | country_id (GET param) | GET
 /api/start_time?loc_id=X | Returns start and end times per location_id | loc_id (GET param) | GET
