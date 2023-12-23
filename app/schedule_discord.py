@@ -57,8 +57,10 @@ def load_config():
 def get_location(location, results):
     """Threaded function for getting location details from local API"""
 
+    params={"loc_id": location['id']}
+
     start_time = requests.get(
-        url=f"http://127.0.0.1:5000/api/start_time/{location['id']}",
+        url=f"http://127.0.0.1:5000/api/start_time",
         timeout=9
     ).json()
 
@@ -74,8 +76,11 @@ def get_start_times():
 
     countries = requests.get(url="http://127.0.0.1:5000/api/countries", timeout=9).json()
     for country in countries:
+        params = {"country_id": country['id']}
+
         locations = requests.get(
-            url=f"http://127.0.0.1:5000/api/locations/by_country/{country['id']}",
+            url=f"http://127.0.0.1:5000/api/locations/by_country",
+            params=params,
             timeout=9
         ).json()
 

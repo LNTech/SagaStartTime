@@ -53,7 +53,7 @@ def add_country():
 @app.route("/api/locations/by_country", methods=["GET"])
 def locations_by_country():
     """Gets locations given a country ID"""
-    country_id = request.args.get('id')
+    country_id = request.args.get('country_id')
 
     if check_values(country_id):
         return jsonify({"message": "Invalid form data."}), 400
